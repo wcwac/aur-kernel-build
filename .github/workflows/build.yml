@@ -1,0 +1,56 @@
+name: Build Archlinux Packages
+
+on:
+  #push:
+  #  branches:
+  #    - master
+  #schedule:
+  #  - cron: '0 1,13 * * 1-6' # build pkgs via 996 rules (；′⌒`)
+  workflow_dispatch: # allow manual trigger
+
+env:
+  TZ: Asia/Shanghai
+
+jobs:
+  Build: # build packages
+    strategy:
+      matrix:
+        pkgs: [ 
+          imgui, 
+          index-generator, 
+          xwinwrap-git, 
+          wps-office-mui-zh-cn, 
+          ttf-wps-fonts, 
+          flashplayer-standalone, 
+          pycharm-professional, 
+          python-image-go-nord, 
+          ttf-material-design-iconic-font, 
+          kwin-script-grid-tiling-git,
+          dingtalk-bin,
+          google-chrome,
+          nvim-packer-git,
+          code-marketplace,
+          wps-office
+        ] # package list 
+      fail-fast: false # allow package build fails
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.SSH_KEY }}
+          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+
+      - name: Build pkgs in above list 
+        uses: zjuyk/pkgbuild-aur@master
+        with:
+          pkg-name: ${{ matrix.pkgs }}
+
+      - name: Upload assets to release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          tag: "packages"
+          artifacts: "./*/*.zst"
+          token: ${{ secrets.GITHUB_TOKEN }}
