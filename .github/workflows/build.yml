@@ -16,21 +16,7 @@ jobs:
     strategy:
       matrix:
         pkgs: [ 
-          imgui, 
-          index-generator, 
-          xwinwrap-git, 
-          wps-office-mui-zh-cn, 
-          ttf-wps-fonts, 
-          flashplayer-standalone, 
-          pycharm-professional, 
-          python-image-go-nord, 
-          ttf-material-design-iconic-font, 
-          kwin-script-grid-tiling-git,
-          dingtalk-bin,
-          google-chrome,
-          nvim-packer-git,
-          code-marketplace,
-          wps-office
+          linux-next-git
         ] # package list 
       fail-fast: false # allow package build fails
     runs-on: ubuntu-latest

@@ -1,0 +1,3 @@
+[submodule "linux-next-git"]
+	path = linux-next-git
+	url = https://aur.archlinux.org/linux-next-git.git
